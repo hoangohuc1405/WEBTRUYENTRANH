@@ -53,38 +53,39 @@
             </nav>
             <!-- The Modal -->
 
-                <button id="cart">
-                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                    Giỏ Hàng
-                </button>
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Giỏ Hàng</h5>
-                            <span class="close">&times;</span>
+            <button id="cart">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                Giỏ Hàng
+                <span id="cart-count" class="cart-count">0</span>
+            </button>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Giỏ Hàng</h5>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="cart-row">
+                            <span class="cart-item cart-header cart-column">Sản Phẩm</span>
+                            <span class="cart-price cart-header cart-column">Giá</span>
+                            <span class="cart-quantity cart-header cart-column">Số Lượng</span>
                         </div>
-                        <div class="modal-body">
-                            <div class="cart-row">
-                                <span class="cart-item cart-header cart-column">Sản Phẩm</span>
-                                <span class="cart-price cart-header cart-column">Giá</span>
-                                <span class="cart-quantity cart-header cart-column">Số Lượng</span>
-                            </div>
+                        <div class="cart-items">
                             <div class="cart-items">
-                                    <div class="cart-items">
-                                        
-                                </div>
-                                <div class="cart-total">
-                                    <strong class="cart-total-title">Tổng Cộng:</strong>
-                                    <span class="cart-total-price">0VNĐ</span>
-                                </div>
-                            </div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary close-footer">Đóng</button>
-                                <button type="button" class="btn btn-primary order">Thanh Toán</button>
                             </div>
+                            <div class="cart-total">
+                                <strong class="cart-total-title">Tổng Cộng:</strong>
+                                <span class="cart-total-price">0VNĐ</span>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-footer">Đóng</button>
+                            <button type="button" class="btn btn-primary order">Thanh Toán</button>
                         </div>
                     </div>
+                </div>
         </nav>
 
     </header>
@@ -92,135 +93,7 @@
     <section class="wrapper">
         <div class="products">
             <ul>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://th.bing.com/th/id/R.49d1852f78c56e1c410956ccba611c11?rik=OIaEj31RRromJw&pid=ImgRaw&r=0"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Conan 1</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">25000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://th.bing.com/th/id/OIP.161ssBq2D3ZdsAgcbD0uKwAAAA?w=300&h=470&rs=1&pid=ImgDetMain"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Conan 75</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">1299000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://www.detectiveconanworld.com/wiki/images/1/19/Volume24v.jpg"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Conan 24</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">1599000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product no-margin">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://th.bing.com/th/id/OIP.BC0xWZoNs5wX7_miurlIrQHaLS?w=800&h=1220&rs=1&pid=ImgDetMain"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Doraemon 24</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">89000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://bookbuy.vn/Res/Images/Product/doraemon-chu-meo-may-den-tu-tuong-lai-tap-28-tai-ban-2019-_96150_4.jpg"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Doraemon 28
-                        </h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">2199000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://online.pubhtml5.com/wdykl/ruol/files/large/1.jpg"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Doraemon 22</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">115000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://th.bing.com/th/id/OIP.TXzET12Z-x9mY4du3crGPQHaKS?rs=1&pid=ImgDetMain"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Ô Long Viện 4</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">1295000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="main-product no-margin">
-                    <div class="img-product">
-                        <img class="img-prd"
-                            src="https://th.bing.com/th/id/OIP.Z-FmVSduPBZeRZ4YHhM2xQHaKW?w=728&h=1018&rs=1&pid=ImgDetMain"
-                            alt="">
-                    </div>
-                    <div class="content-product">
-                        <h3 class="content-product-h3">Truyện Ô Long Viện 5</h3>
-                        <div class="content-product-deltals">
-                            <div class="price">
-                                <span class="money">85000đ</span>
-                            </div>
-                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
-                        </div>
-                    </div>
-                </li>
+          
             </ul>
         </div>
     </section>

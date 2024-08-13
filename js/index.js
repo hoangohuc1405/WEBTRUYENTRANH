@@ -1,12 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Modal
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("cart");
     var close = document.getElementsByClassName("close")[0];
     var closeFooter = document.getElementsByClassName("close-footer")[0];
     var order = document.getElementsByClassName("order")[0];
 
-    // Check if elements exist before setting event listeners
     if (btn && modal) {
         btn.onclick = function () {
             modal.style.display = "block";
@@ -37,23 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Menu Mobile
-    var btnMenu = document.getElementById("btnmenu");
-    if (btnMenu) {
-        btnMenu.addEventListener("click", function () {
-            var itemMenu = document.getElementById("menutop");
-            if (itemMenu) {
-                itemMenu.style.display = (itemMenu.style.display === "block") ? "none" : "block";
-            }
-        });
-    }
+    var cartQuantity = 0; // Số lượng sản phẩm trong giỏ hàng
 
-    // Add to Cart
     function setAddCartListeners() {
         var addCartButtons = document.getElementsByClassName("btn-cart");
         for (var i = 0; i < addCartButtons.length; i++) {
             var add = addCartButtons[i];
-            add.removeEventListener("click", handleAddCartClick); // Remove existing listener if any
+            add.removeEventListener("click", handleAddCartClick);
             add.addEventListener("click", handleAddCartClick);
         }
     }
@@ -74,7 +62,34 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Add Item to Cart
+    function loadProductsFromLocalStorage() {
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        const productContainer = document.querySelector('.products ul');
+        productContainer.innerHTML = '';
+
+        products.forEach(product => {
+            const productHTML = `
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd" src="${product.image}" alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">${product.name}</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">${product.price} VNĐ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+            `;
+            productContainer.innerHTML += productHTML;
+        });
+
+        setAddCartListeners();
+    }
+
     function addItemToCart(title, price, img) {
         var cartRow = document.createElement('div');
         cartRow.classList.add('cart-row');
@@ -83,7 +98,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (var i = 0; i < cartTitles.length; i++) {
             if (cartTitles[i].textContent === title) {
-                alert('Sản Phẩm Đã Có Trong Giỏ Hàng');
+                var quantityInput = cartTitles[i].closest(".cart-row").querySelector(".cart-quantity-input");
+                if (quantityInput) {
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                }
+                updateCart();
+                updateCartQuantityDisplay();
                 return;
             }
         }
@@ -97,31 +117,37 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="cart-quantity cart-column">
                 <input class="cart-quantity-input" type="number" value="1">
                 <button class="btn btn-danger" type="button">Xóa</button>
-            </div>;`
+            </div>
+        `;
         cartRow.innerHTML = cartRowContents;
         cartItems.append(cartRow);
 
+        cartQuantity += 1; // Increment cart quantity
+        updateCart();
+        updateCartQuantityDisplay();
         setRemoveCartListeners();
         setQuantityListeners();
     }
 
-    // Remove Cart Item
     function setRemoveCartListeners() {
         var removeCart = document.getElementsByClassName("btn-danger");
         for (var i = 0; i < removeCart.length; i++) {
             var button = removeCart[i];
-            button.removeEventListener("click", handleRemoveCartClick); // Remove existing listener if any
+            button.removeEventListener("click", handleRemoveCartClick);
             button.addEventListener("click", handleRemoveCartClick);
         }
     }
 
     function handleRemoveCartClick(event) {
         var buttonRemove = event.currentTarget;
-        buttonRemove.closest(".cart-row").remove();
+        var row = buttonRemove.closest(".cart-row");
+        var quantity = parseInt(row.querySelector(".cart-quantity-input").value) || 0;
+        cartQuantity -= quantity;
+        row.remove();
         updateCart();
+        updateCartQuantityDisplay();
     }
 
-    // Update Cart
     function updateCart() {
         var cartItem = document.getElementsByClassName("cart-items")[0];
         var cartRows = cartItem ? cartItem.getElementsByClassName("cart-row") : [];
@@ -132,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var quantityItem = cartRow.getElementsByClassName("cart-quantity-input")[0];
 
             if (priceItem && quantityItem) {
-                var price = parseFloat(priceItem.textContent.replace('đ', '').trim()); // Remove 'đ' and trim
+                var price = parseFloat(priceItem.textContent.replace('VNĐ', '').trim());
                 var quantity = parseInt(quantityItem.value, 10);
 
                 if (!isNaN(price) && !isNaN(quantity)) {
@@ -142,16 +168,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         var totalPriceElement = document.getElementsByClassName("cart-total-price")[0];
         if (totalPriceElement) {
-            totalPriceElement.textContent = total.toFixed(2) + ' đ';
+            totalPriceElement.textContent = total.toFixed(2) + ' VNĐ';
         }
     }
 
-    // Change Quantity
     function setQuantityListeners() {
         var quantityInputs = document.getElementsByClassName("cart-quantity-input");
         for (var i = 0; i < quantityInputs.length; i++) {
             var input = quantityInputs[i];
-            input.removeEventListener("change", handleQuantityChange); // Remove existing listener if any
+            input.removeEventListener("change", handleQuantityChange);
             input.addEventListener("change", handleQuantityChange);
         }
     }
@@ -163,10 +188,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateCart();
     }
-    
 
-    // Initialize event listeners
+    function updateCartQuantityDisplay() {
+        var cartButton = document.getElementById("cart");
+        var cartCountSpan = document.getElementById("cart-count");
+        if (cartButton && cartCountSpan) {
+            cartCountSpan.textContent = cartQuantity;
+        }
+    }
+
     setAddCartListeners();
     setRemoveCartListeners();
     setQuantityListeners();
+    loadProductsFromLocalStorage();
 });
+

@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const modal = document.getElementById("myModal");
-    const btn = document.getElementById("cart");
-    const close = document.getElementsByClassName("close")[0];
-    const closeFooter = document.getElementsByClassName("close-footer")[0];
-    const order = document.getElementsByClassName("order")[0];
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("search-input");
-
-    let cartQuantity = 0;
+    let modal = document.getElementById("myModal");
+    let btn = document.getElementById("cart");
+    let close = document.getElementsByClassName("close")[0];
+    let closeFooter = document.getElementsByClassName("close-footer")[0];
+    let order = document.getElementsByClassName("order")[0];
+    let searchForm = document.getElementById("search-form");
+    let searchInput = document.getElementById("search-input");
 
     if (btn && modal) {
         btn.onclick = function () {
@@ -30,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (order) {
         order.onclick = function () {
             alert("Cảm ơn bạn đã thanh toán đơn hàng");
+            localStorage.removeItem('cart'); // Xóa giỏ hàng sau khi thanh toán
+            updateCart(); // Cập nhật giỏ hàng
         };
     }
 
@@ -40,27 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function setAddCartListeners() {
-        const addCartButtons = document.getElementsByClassName("btn-cart");
+        let addCartButtons = document.getElementsByClassName("btn-cart");
         for (let i = 0; i < addCartButtons.length; i++) {
-            const add = addCartButtons[i];
+            let add = addCartButtons[i];
             add.removeEventListener("click", handleAddCartClick);
             add.addEventListener("click", handleAddCartClick);
         }
     }
 
     function handleAddCartClick(event) {
-        const button = event.currentTarget;
-        const product = button.closest(".main-product");
+        let button = event.currentTarget;
+        let product = button.closest(".main-product");
         if (product) {
-            const img = product.querySelector(".img-prd")?.src || '';
-            const title = product.querySelector(".content-product-h3")?.textContent || '';
-            const price = product.querySelector(".money")?.textContent || '';
+            let img = product.querySelector(".img-prd")?.src || '';
+            let title = product.querySelector(".content-product-h3")?.textContent || '';
+            let price = product.querySelector(".money")?.textContent || '';
 
             addItemToCart(title, price, img);
             if (modal) {
                 modal.style.display = "block";
             }
-            updateCart();
         }
     }
 
@@ -90,105 +89,141 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         setAddCartListeners();
+        loadCartFromLocalStorage(); // Tải giỏ hàng từ localStorage
     }
 
     function addItemToCart(title, price, img) {
-        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        let existingItem = cartItems.find(item => item.title === title);
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cartItems.push({ title, price, img, quantity: 1 });
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        let existingProduct = cartItems.find(item => item.title === title);
+
+        if (existingProduct) {
+            alert("Sản phẩm đã có trong giỏ hàng!");
+            return;
         }
 
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        let cartItem = {
+            title: title,
+            price: price,
+            img: img,
+            quantity: 1
+        };
+
+        cartItems.push(cartItem);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
         updateCart();
     }
 
     function setRemoveCartListeners() {
-        const removeCartButtons = document.getElementsByClassName("btn-danger");
-        for (let i = 0; i < removeCartButtons.length; i++) {
-            const button = removeCartButtons[i];
+        let removeCart = document.getElementsByClassName("btn-danger");
+        for (let i = 0; i < removeCart.length; i++) {
+            let button = removeCart[i];
             button.removeEventListener("click", handleRemoveCartClick);
             button.addEventListener("click", handleRemoveCartClick);
         }
     }
 
     function handleRemoveCartClick(event) {
-        const buttonRemove = event.currentTarget;
-        const row = buttonRemove.closest(".cart-row");
-        const title = row.querySelector(".cart-item-title").textContent;
+        let buttonRemove = event.currentTarget;
+        let row = buttonRemove.closest(".cart-row");
+        let title = row.querySelector(".cart-item-title").textContent;
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
-        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         cartItems = cartItems.filter(item => item.title !== title);
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+
+        row.remove();
         updateCart();
     }
 
     function updateCart() {
-        const cartItemsProduct = document.querySelector('.cart-items-product');
-        cartItemsProduct.innerHTML = '';
-        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        
-        cartQuantity = 0;
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartItemContainer = document.querySelector('.cart-items-product');
+        cartItemContainer.innerHTML = '';
+
         let total = 0;
+        let cartQuantity = 0;
 
         cartItems.forEach(item => {
-            const { title, price, img, quantity } = item;
             const cartRow = document.createElement('div');
             cartRow.classList.add('cart-row');
             const cartRowContents = `
                 <div class="cart-item cart-column">
-                    <img class="cart-item-image" src="${img}" width="100" height="100">
-                    <span class="cart-item-title">${title}</span>
+                    <img class="cart-item-image" src="${item.img}" width="100" height="100">
+                    <span class="cart-item-title">${item.title}</span>
                 </div>
-                <span class="cart-price cart-column">${price}</span>
+                <span class="cart-price cart-column">${item.price}</span>
                 <div class="cart-quantity cart-column">
-                    <input class="cart-quantity-input" type="number" value="${quantity}">
+                    <input class="cart-quantity-input" type="number" value="${item.quantity}">
                     <button class="btn btn-danger" type="button">Xóa</button>
                 </div>
             `;
             cartRow.innerHTML = cartRowContents;
-            cartItemsProduct.append(cartRow);
+            cartItemContainer.append(cartRow);
 
-            cartQuantity += quantity;
-            total += parseFloat(price.replace(' VNĐ', '')) * quantity;
+            total += parseFloat(item.price.replace('VNĐ', '').trim()) * item.quantity;
+            cartQuantity += item.quantity;
         });
 
-        document.querySelector('.cart-total-price').textContent = `${total} VNĐ`;
-        document.getElementById("cart-count").textContent = cartQuantity;
+        let totalPriceElement = document.getElementsByClassName("cart-total-price")[0];
+        if (totalPriceElement) {
+            totalPriceElement.textContent = total.toFixed(2) + ' VNĐ';
+        }
+
+        let cartCountSpan = document.getElementById("cart-count");
+        if (cartCountSpan) {
+            cartCountSpan.textContent = cartQuantity;
+        }
 
         setRemoveCartListeners();
         setQuantityListeners();
     }
 
     function setQuantityListeners() {
-        const quantityInputs = document.getElementsByClassName("cart-quantity-input");
+        let quantityInputs = document.getElementsByClassName("cart-quantity-input");
         for (let i = 0; i < quantityInputs.length; i++) {
-            const input = quantityInputs[i];
+            let input = quantityInputs[i];
             input.removeEventListener("change", handleQuantityChange);
             input.addEventListener("change", handleQuantityChange);
         }
     }
 
     function handleQuantityChange(event) {
-        const input = event.currentTarget;
-        const row = input.closest(".cart-row");
-        const title = row.querySelector(".cart-item-title").textContent;
-        const newQuantity = parseInt(input.value);
-
-        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        let input = event.currentTarget;
+        let title = input.closest('.cart-row').querySelector('.cart-item-title').textContent;
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
         let item = cartItems.find(item => item.title === title);
+
         if (item) {
-            item.quantity = newQuantity;
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            item.quantity = parseInt(input.value, 10) || 1;
+            localStorage.setItem('cart', JSON.stringify(cartItems));
             updateCart();
         }
     }
 
+    function loadCartFromLocalStorage() {
+        updateCart();
+    }
+
+    function searchProducts() {
+        let query = searchInput.value.toLowerCase();
+        let products = document.querySelectorAll('.products .main-product');
+        products.forEach(function (product) {
+            let title = product.querySelector('.content-product-h3').textContent.toLowerCase();
+            if (title.includes(query)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchForm) {
+        searchForm.addEventListener('input', function () {
+            searchProducts();
+        });
+    }
+
+    setAddCartListeners();
+    setQuantityListeners();
     loadProductsFromLocalStorage();
-    updateCart();
 });

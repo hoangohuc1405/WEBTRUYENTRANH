@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let modal = document.getElementById("myModal");
-    let btn = document.getElementById("cart");
-    let close = document.getElementsByClassName("close")[0];
-    let closeFooter = document.getElementsByClassName("close-footer")[0];
-    let order = document.getElementsByClassName("order")[0];
-    let searchForm = document.getElementById("search-form");
-    let searchInput = document.getElementById("search-input");
+    const modal = document.getElementById("myModal");
+    const btn = document.getElementById("cart");
+    const close = document.getElementsByClassName("close")[0];
+    const closeFooter = document.getElementsByClassName("close-footer")[0];
+    const order = document.getElementsByClassName("order")[0];
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("search-input");
+
+    let cartQuantity = 0;
 
     if (btn && modal) {
         btn.onclick = function () {
@@ -37,24 +39,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    let cartQuantity = 0;
-
     function setAddCartListeners() {
-        let addCartButtons = document.getElementsByClassName("btn-cart");
+        const addCartButtons = document.getElementsByClassName("btn-cart");
         for (let i = 0; i < addCartButtons.length; i++) {
-            let add = addCartButtons[i];
+            const add = addCartButtons[i];
             add.removeEventListener("click", handleAddCartClick);
             add.addEventListener("click", handleAddCartClick);
         }
     }
 
     function handleAddCartClick(event) {
-        let button = event.currentTarget;
-        let product = button.closest(".main-product");
+        const button = event.currentTarget;
+        const product = button.closest(".main-product");
         if (product) {
-            let img = product.querySelector(".img-prd")?.src || '';
-            let title = product.querySelector(".content-product-h3")?.textContent || '';
-            let price = product.querySelector(".money")?.textContent || '';
+            const img = product.querySelector(".img-prd")?.src || '';
+            const title = product.querySelector(".content-product-h3")?.textContent || '';
+            const price = product.querySelector(".money")?.textContent || '';
 
             addItemToCart(title, price, img);
             if (modal) {
@@ -93,133 +93,102 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addItemToCart(title, price, img) {
-        let cartRow = document.createElement('div');
-        cartRow.classList.add('cart-row');
-        let cartItems = document.querySelector('.cart-items-product');
-        let cartTitles = cartItems.getElementsByClassName('cart-item-title');
-
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        for (let i = 0; i < cartTitles.length; i++) {
-            if (cartTitles[i].textContent === title) {
-                alert("Sản phẩm đã có trong giỏ hàng!");
-                return;
-            }
+        let existingItem = cartItems.find(item => item.title === title);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cartItems.push({ title, price, img, quantity: 1 });
         }
 
-        let cartRowContents = `
-            <div class="cart-item cart-column">
-                <img class="cart-item-image" src="${img}" width="100" height="100">
-                <span class="cart-item-title">${title}</span>
-            </div>
-            <span class="cart-price cart-column">${price}</span>
-            <div class="cart-quantity cart-column">
-                <input class="cart-quantity-input" type="number" value="1">
-                <button class="btn btn-danger" type="button">Xóa</button>
-            </div>
-        `;
-        cartRow.innerHTML = cartRowContents;
-        cartItems.append(cartRow);
-
-        cartQuantity += 1;
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
         updateCart();
-        updateCartQuantityDisplay();
-        setRemoveCartListeners();
-        setQuantityListeners();
     }
 
     function setRemoveCartListeners() {
-        let removeCart = document.getElementsByClassName("btn-danger");
-        for (let i = 0; i < removeCart.length; i++) {
-            let button = removeCart[i];
+        const removeCartButtons = document.getElementsByClassName("btn-danger");
+        for (let i = 0; i < removeCartButtons.length; i++) {
+            const button = removeCartButtons[i];
             button.removeEventListener("click", handleRemoveCartClick);
             button.addEventListener("click", handleRemoveCartClick);
         }
     }
 
     function handleRemoveCartClick(event) {
-        let buttonRemove = event.currentTarget;
-        let row = buttonRemove.closest(".cart-row");
-        let quantity = parseInt(row.querySelector(".cart-quantity-input").value) || 0;
-        cartQuantity -= quantity;
-        row.remove();
+        const buttonRemove = event.currentTarget;
+        const row = buttonRemove.closest(".cart-row");
+        const title = row.querySelector(".cart-item-title").textContent;
+
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cartItems = cartItems.filter(item => item.title !== title);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        
         updateCart();
-        updateCartQuantityDisplay();
     }
 
     function updateCart() {
-        let cartItem = document.querySelector('.cart-items-product');
-        let cartRows = cartItem ? cartItem.getElementsByClassName("cart-row") : [];
+        const cartItemsProduct = document.querySelector('.cart-items-product');
+        cartItemsProduct.innerHTML = '';
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        
+        cartQuantity = 0;
         let total = 0;
-        cartQuantity = 0; // Reset cartQuantity
 
-        for (let i = 0; i < cartRows.length; i++) {
-            let cartRow = cartRows[i];
-            let priceItem = cartRow.getElementsByClassName("cart-price")[0];
-            let quantityItem = cartRow.getElementsByClassName("cart-quantity-input")[0];
+        cartItems.forEach(item => {
+            const { title, price, img, quantity } = item;
+            const cartRow = document.createElement('div');
+            cartRow.classList.add('cart-row');
+            const cartRowContents = `
+                <div class="cart-item cart-column">
+                    <img class="cart-item-image" src="${img}" width="100" height="100">
+                    <span class="cart-item-title">${title}</span>
+                </div>
+                <span class="cart-price cart-column">${price}</span>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="${quantity}">
+                    <button class="btn btn-danger" type="button">Xóa</button>
+                </div>
+            `;
+            cartRow.innerHTML = cartRowContents;
+            cartItemsProduct.append(cartRow);
 
-            if (priceItem && quantityItem) {
-                let price = parseFloat(priceItem.textContent.replace('VNĐ', '').trim());
-                let quantity = parseInt(quantityItem.value, 10);
+            cartQuantity += quantity;
+            total += parseFloat(price.replace(' VNĐ', '')) * quantity;
+        });
 
-                if (!isNaN(price) && !isNaN(quantity)) {
-                    total += price * quantity;
-                    cartQuantity += quantity; // Update cartQuantity
-                }
-            }
-        }
-        let totalPriceElement = document.getElementsByClassName("cart-total-price")[0];
-        if (totalPriceElement) {
-            totalPriceElement.textContent = total.toFixed(2) + ' VNĐ';
-        }
-        updateCartQuantityDisplay(); // Ensure cart quantity display is updated
+        document.querySelector('.cart-total-price').textContent = `${total} VNĐ`;
+        document.getElementById("cart-count").textContent = cartQuantity;
+
+        setRemoveCartListeners();
+        setQuantityListeners();
     }
 
     function setQuantityListeners() {
-        let quantityInputs = document.getElementsByClassName("cart-quantity-input");
+        const quantityInputs = document.getElementsByClassName("cart-quantity-input");
         for (let i = 0; i < quantityInputs.length; i++) {
-            let input = quantityInputs[i];
+            const input = quantityInputs[i];
             input.removeEventListener("change", handleQuantityChange);
             input.addEventListener("change", handleQuantityChange);
         }
     }
 
     function handleQuantityChange(event) {
-        let input = event.currentTarget;
-        if (isNaN(input.value) || input.value <= 0) {
-            input.value = 1;
+        const input = event.currentTarget;
+        const row = input.closest(".cart-row");
+        const title = row.querySelector(".cart-item-title").textContent;
+        const newQuantity = parseInt(input.value);
+
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        let item = cartItems.find(item => item.title === title);
+        if (item) {
+            item.quantity = newQuantity;
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCart();
         }
-        updateCart();
     }
 
-    function updateCartQuantityDisplay() {
-        let cartButton = document.getElementById("cart");
-        let cartCountSpan = document.getElementById("cart-count");
-        if (cartButton && cartCountSpan) {
-            cartCountSpan.textContent = cartQuantity;
-        }
-    }
-
-    function searchProducts() {
-        let query = searchInput.value.toLowerCase();
-        let products = document.querySelectorAll('.products .main-product');
-        products.forEach(function (product) {
-            let title = product.querySelector('.content-product-h3').textContent.toLowerCase();
-            if (title.includes(query)) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
-        });
-    }
-
-    if (searchForm) {
-        searchForm.addEventListener('input', function () {
-            searchProducts();
-        });
-    }
-
-    setAddCartListeners();
-    setRemoveCartListeners();
-    setQuantityListeners();
     loadProductsFromLocalStorage();
+    updateCart();
 });

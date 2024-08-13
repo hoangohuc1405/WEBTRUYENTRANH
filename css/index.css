@@ -202,11 +202,11 @@ h5.modal-title {
 }
 
 .products ul {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cột, mỗi cột chiếm 1 phần của không gian */
   gap: 1.3rem; /* Khoảng cách giữa các sản phẩm */
   padding: 0;
-
+  list-style: none;
 }
 
 .products ul .main-product {

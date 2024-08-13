@@ -48,6 +48,63 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Add to Cart
+    function setAddCartListeners() {
+        var addCartButtons = document.getElementsByClassName("btn-cart");
+        for (var i = 0; i < addCartButtons.length; i++) {
+            var add = addCartButtons[i];
+            add.removeEventListener("click", handleAddCartClick); // Remove existing listener if any
+            add.addEventListener("click", handleAddCartClick);
+        }
+    }
+
+    function handleAddCartClick(event) {
+        var button = event.currentTarget;
+        var product = button.closest(".main-product");
+        if (product) {
+            var img = product.querySelector(".img-prd")?.src || '';
+            var title = product.querySelector(".content-product-h3")?.textContent || '';
+            var price = product.querySelector(".money")?.textContent || '';
+
+            addItemToCart(title, price, img);
+            if (modal) {
+                modal.style.display = "block";
+            }
+            updateCart();
+        }
+    }
+
+    // Add Item to Cart
+    function addItemToCart(title, price, img) {
+        var cartRow = document.createElement('div');
+        cartRow.classList.add('cart-row');
+        var cartItems = document.getElementsByClassName('cart-items')[0];
+        var cartTitles = cartItems ? cartItems.getElementsByClassName('cart-item-title') : [];
+
+        for (var i = 0; i < cartTitles.length; i++) {
+            if (cartTitles[i].textContent === title) {
+                alert('Sản Phẩm Đã Có Trong Giỏ Hàng');
+                return;
+            }
+        }
+
+        var cartRowContents = `
+            <div class="cart-item cart-column">
+                <img class="cart-item-image" src="${img}" width="100" height="100">
+                <span class="cart-item-title">${title}</span>
+            </div>
+            <span class="cart-price cart-column">${price}</span>
+            <div class="cart-quantity cart-column">
+                <input class="cart-quantity-input" type="number" value="1">
+                <button class="btn btn-danger" type="button">Xóa</button>
+            </div>;`
+        cartRow.innerHTML = cartRowContents;
+        cartItems.append(cartRow);
+
+        setRemoveCartListeners();
+        setQuantityListeners();
+    }
+
     // Remove Cart Item
     function setRemoveCartListeners() {
         var removeCart = document.getElementsByClassName("btn-danger");
@@ -75,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var quantityItem = cartRow.getElementsByClassName("cart-quantity-input")[0];
 
             if (priceItem && quantityItem) {
-                var price = parseFloat(priceItem.innerText.replace('VNĐ', '').trim()); // Remove 'VNĐ' and trim
+                var price = parseFloat(priceItem.textContent.replace('đ', '').trim()); // Remove 'đ' and trim
                 var quantity = parseInt(quantityItem.value, 10);
 
                 if (!isNaN(price) && !isNaN(quantity)) {
@@ -85,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         var totalPriceElement = document.getElementsByClassName("cart-total-price")[0];
         if (totalPriceElement) {
-            totalPriceElement.innerText = total.toFixed(2) + ' VNĐ';
+            totalPriceElement.textContent = total.toFixed(2) + ' đ';
         }
     }
 
@@ -106,67 +163,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateCart();
     }
-
-    // Add to Cart
-    function setAddCartListeners() {
-        var addCartButtons = document.getElementsByClassName("btn-cart");
-        for (var i = 0; i < addCartButtons.length; i++) {
-            var add = addCartButtons[i];
-            add.removeEventListener("click", handleAddCartClick); // Remove existing listener if any
-            add.addEventListener("click", handleAddCartClick);
-        }
-    }
-
-    function handleAddCartClick(event) {
-        var button = event.currentTarget;
-        var product = button.closest(".product");
-        if (product) {
-            var img = product.getElementsByClassName("img-prd")[0]?.src || '';
-            var title = product.getElementsByClassName("content-product-h3")[0]?.innerText || '';
-            var price = product.getElementsByClassName("price")[0]?.innerText || '';
-
-            addItemToCart(title, price, img);
-            if (modal) {
-                modal.style.display = "block";
-            }
-            updateCart();
-        }
-    }
-
-    // Add Item to Cart
-    function addItemToCart(title, price, img) {
-        var cartRow = document.createElement('div');
-        cartRow.classList.add('cart-row');
-        var cartItems = document.getElementsByClassName('cart-items')[0];
-        var cartTitles = cartItems ? cartItems.getElementsByClassName('cart-item-title') : [];
-
-        for (var i = 0; i < cartTitles.length; i++) {
-            if (cartTitles[i].innerText === title) {
-                alert('Sản Phẩm Đã Có Trong Giỏ Hàng');
-                return;
-            }
-        }
-
-        var cartRowContents = `
-            <div class="cart-item cart-column">
-                <img class="cart-item-image" src="${img}" width="100" height="100">
-                <span class="cart-item-title">${title}</span>
-            </div>
-            <span class="cart-price cart-column">${price}</span>
-            <div class="cart-quantity cart-column">
-                <input class="cart-quantity-input" type="number" value="1">
-                <button class="btn btn-danger" type="button">Xóa</button>
-            </div>`;
-
-        cartRow.innerHTML = cartRowContents;
-        cartItems.append(cartRow);
-
-        setRemoveCartListeners();
-        setQuantityListeners();
-    }
+    
 
     // Initialize event listeners
+    setAddCartListeners();
     setRemoveCartListeners();
     setQuantityListeners();
-    setAddCartListeners();
 });

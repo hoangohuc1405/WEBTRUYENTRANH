@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Sản phẩm</title>
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="admin.html">Quản lý Sản phẩm</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="add-product">
+            <h2>Thêm Sản phẩm</h2>
+            <form id="addProductForm">
+                <label for="productName">Tên sản phẩm:</label>
+                <input type="text" id="productName" name="productName" required>
+
+                <label for="productPrice">Giá sản phẩm:</label>
+                <input type="number" id="productPrice" name="productPrice" required>
+
+                <label for="productImage">Ảnh sản phẩm:</label>
+                <input type="url" id="productImage" name="productImage" required>
+
+                <button type="button" id="submitButton">Thêm Sản phẩm</button>
+            </form>
+        </section>
+
+        <section class="product-list">
+            <h2>Danh sách Sản phẩm</h2>
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Ảnh</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Các sản phẩm sẽ được thêm vào đây thông qua JavaScript -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Modal và các phần tử khác
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("cart");
     var close = document.getElementsByClassName("close")[0];
     var closeFooter = document.getElementsByClassName("close-footer")[0];
     var order = document.getElementsByClassName("order")[0];
+    var searchForm = document.getElementById("search-form");
+    var searchInput = document.getElementById("search-input");
 
     if (btn && modal) {
         btn.onclick = function () {
@@ -35,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    var cartQuantity = 0; // Số lượng sản phẩm trong giỏ hàng
+    var cartQuantity = 0;
 
     function setAddCartListeners() {
         var addCartButtons = document.getElementsByClassName("btn-cart");
@@ -96,14 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var cartItems = document.getElementsByClassName('cart-items')[0];
         var cartTitles = cartItems ? cartItems.getElementsByClassName('cart-item-title') : [];
 
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         for (var i = 0; i < cartTitles.length; i++) {
             if (cartTitles[i].textContent === title) {
-                var quantityInput = cartTitles[i].closest(".cart-row").querySelector(".cart-quantity-input");
-                if (quantityInput) {
-                    quantityInput.value = parseInt(quantityInput.value) + 1;
-                }
-                updateCart();
-                updateCartQuantityDisplay();
+                alert("Sản phẩm đã có trong giỏ hàng!");
                 return;
             }
         }
@@ -122,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cartRow.innerHTML = cartRowContents;
         cartItems.append(cartRow);
 
-        cartQuantity += 1; // Increment cart quantity
+        cartQuantity += 1;
         updateCart();
         updateCartQuantityDisplay();
         setRemoveCartListeners();
@@ -197,9 +196,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function searchProducts() {
+        var query = searchInput.value.toLowerCase();
+        var products = document.querySelectorAll('.products .main-product');
+        products.forEach(function (product) {
+            var title = product.querySelector('.content-product-h3').textContent.toLowerCase();
+            if (title.includes(query)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchForm) {
+        searchForm.addEventListener('input', function () {
+            searchProducts();
+        });
+    }
+
     setAddCartListeners();
     setRemoveCartListeners();
     setQuantityListeners();
     loadProductsFromLocalStorage();
 });
-

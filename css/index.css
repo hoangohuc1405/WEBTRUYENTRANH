@@ -569,3 +569,151 @@ h5.modal-title {
   font-size: 13px;
   font-weight: bold;
 }
+
+/* Style cho nút Sign In */
+#signin-button {
+  font-size: 15px;
+  color: #fff;
+  background: #a2a2a2e0; /* Sử dụng màu nền giống như nút giỏ hàng */
+  border: 1px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  margin-left: 1rem;
+  padding: 12px;
+  cursor: pointer;
+  width: 120px; /* Thay đổi từ width: 300px nếu cần */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Để dropdown menu nằm trên nút */
+}
+
+/* Style cho nút khi hover */
+#signin-button:hover {
+  border-color: #fff; /* Thay đổi màu viền khi di chuột */
+  background: #666666; /* Thay đổi màu nền khi di chuột */
+}
+
+/* Style cho dropdown menu */
+#dropdown-menu {
+  display: none; /* Ẩn menu khi chưa đăng nhập */
+  position: absolute;
+  top: 100%; /* Đặt menu ngay bên dưới nút */
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 160px; /* Đảm bảo menu đủ rộng để chứa các item */
+  z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
+}
+
+/* Style cho item trong dropdown menu */
+#dropdown-menu .dropdown-item {
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+/* Style cho item khi hover trong dropdown menu */
+#dropdown-menu .dropdown-item:hover {
+  background: #f4f4f4;
+}
+
+/* Style cho nút khi hover */
+#signin-button:hover {
+  border-color: #fff; /* Thay đổi màu viền khi di chuột */
+  background: #666666; /* Thay đổi màu nền khi di chuột */
+}
+
+/* Style cho dropdown menu */
+#signin-dropdown {
+  display: none; /* Ẩn menu khi chưa đăng nhập */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 160px; /* Đảm bảo menu đủ rộng để chứa các item */
+  z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
+}
+
+/* Style cho item trong dropdown menu */
+#signin-dropdown .dropdown-item {
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+/* Style cho item khi hover trong dropdown menu */
+#signin-dropdown .dropdown-item:hover {
+  background: #f4f4f4;
+}
+
+/* CSS cho menu dropdown */
+.dropdown-menu {
+  display: none; /* Ẩn menu dropdown khi không cần thiết */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-menu .dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+/* CSS cho menu dropdown */
+.dropdown-menu {
+  display: none; /* Ẩn menu dropdown khi không cần thiết */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-menu .dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+#signin-button {
+  position: relative;
+  color: #fff;
+  cursor: pointer;
+}
+
+#signin-button:hover .dropdown-menu {
+  display: block; /* Hiển thị menu dropdown khi di chuột qua nút */
+}
+
+
+#signin-button:hover .dropdown-menu {
+  display: block; /* Hiển thị menu dropdown khi di chuột qua nút */
+}
+

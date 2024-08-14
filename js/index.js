@@ -6,7 +6,40 @@ document.addEventListener("DOMContentLoaded", function () {
     let order = document.getElementsByClassName("order")[0];
     let searchForm = document.getElementById("search-form");
     let searchInput = document.getElementById("search-input");
+    let signinButton = document.getElementById('signin-button');
 
+    // Hiển thị tên người dùng hoặc nút đăng nhập
+    function updateSigninButton() {
+        const username = localStorage.getItem('username');
+        if (username) {
+            signinButton.innerHTML = `
+                ${username}
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Người dùng</a>
+                    <a href="#" class="dropdown-item">Người quản lý</a>
+                    <a href="#" class="dropdown-item" id="logout">Đăng xuất</a>
+                </div>
+            `;
+            signinButton.classList.add('dropdown');
+            // Xử lý sự kiện Đăng xuất
+            document.getElementById('logout').addEventListener('click', function() {
+                localStorage.removeItem('username');
+                updateSigninButton();
+            });
+        } else {
+            signinButton.innerHTML = 'Sign In';
+            signinButton.classList.remove('dropdown');
+        }
+    }
+    
+    // Xử lý sự kiện khi nhấn vào nút đăng nhập
+    signinButton.addEventListener('click', function() {
+        if (!localStorage.getItem('username')) {
+            window.location.href = 'login.html'; // Thay đổi đường dẫn đến trang đăng nhập của bạn
+        }
+    });
+    
+    // Thực hiện cập nhật giỏ hàng và các sự kiện khác
     if (btn && modal) {
         btn.onclick = function () {
             modal.style.display = "block";
@@ -226,4 +259,5 @@ document.addEventListener("DOMContentLoaded", function () {
     setAddCartListeners();
     setQuantityListeners();
     loadProductsFromLocalStorage();
+    updateSigninButton(); // Cập nhật nút đăng nhập khi trang được tải
 });

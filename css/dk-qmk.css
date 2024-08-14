@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+  
+
+
+/* chung cho form */
+body {
+    background-image: url('https://img4.thuthuatphanmem.vn/uploads/2020/07/05/hinh-anh-background-gia-sach_034911457.jpg');
+    background-size: cover; /* Đảm bảo hình nền bao phủ toàn bộ trang */
+    background-position: center; /* Căn giữa hình nền */
+    background-repeat: no-repeat; /* Không lặp lại hình nền */
+  }
+  
+  /* Chung cho form đăng nhập, đăng ký và quên mật khẩu */
+  .form-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8); /* Nền trắng với độ trong suốt */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  
+  .form-container h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    background: #ca2128; /* Sử dụng màu nền giống như nút giỏ hàng */
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background: #a8201c; /* Thay đổi màu nền khi di chuột */
+  }
+  
+  .links {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .links .link {
+    color: #ca2128;
+    text-decoration: none;
+  }
+  
+  .links .link:hover {
+    text-decoration: underline;
+  }
+  

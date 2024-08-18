@@ -1,0 +1,148 @@
+/* Header */
+header {
+    background-color: #f73d4b; /* Màu nền giống như footer trong login.css */
+    color: #fff;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Đảm bảo header nằm trên các phần tử khác */
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #f73d4b; /* Màu nền của nav giống như header */
+    padding: 1rem;
+}
+
+nav .content-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Main content */
+.admin-auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Trừ chiều cao của header */
+    padding: 2rem;
+    background-color: #f9f9f9; /* Màu nền giống login.css */
+}
+
+.admin-auth-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.admin-auth-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #f73d4b; /* Màu giống như tiêu đề trong login.css */
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #f73d4b; /* Màu nền giống như btn-primary trong login.css */
+    border: none;
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #c70039; /* Màu nền giống như btn-primary:hover trong login.css */
+}
+
+/* Footer */
+footer {
+    background-color: #f73d4b; /* Màu nền giống footer trong login.css */
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.footer-item li {
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+}
+
+.footer-item a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-item a:hover {
+    text-decoration: underline;
+}
+
+.social-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.social-footer li {
+    margin: 0 10px;
+}
+
+.social-footer i {
+    font-size: 1.5rem;
+}

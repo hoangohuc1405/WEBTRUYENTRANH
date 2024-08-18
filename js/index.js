@@ -16,14 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${username}
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item">Người dùng</a>
-                    <a href="#" class="dropdown-item">Người quản lý</a>
+                    <a href="admin-auth.html" class="dropdown-item">Người quản lý</a>
                     <a href="#" class="dropdown-item" id="logout">Đăng xuất</a>
                 </div>
             `;
             signinButton.classList.add('dropdown');
+            
             // Xử lý sự kiện Đăng xuất
-            document.getElementById('logout').addEventListener('click', function() {
+            document.getElementById('logout').addEventListener('click', function () {
                 localStorage.removeItem('username');
+                localStorage.removeItem('isAdmin'); // Xóa trạng thái admin
                 updateSigninButton();
             });
         } else {
@@ -31,14 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
             signinButton.classList.remove('dropdown');
         }
     }
-    
+
     // Xử lý sự kiện khi nhấn vào nút đăng nhập
-    signinButton.addEventListener('click', function() {
+    signinButton.addEventListener('click', function () {
         if (!localStorage.getItem('username')) {
             window.location.href = 'login.html'; // Thay đổi đường dẫn đến trang đăng nhập của bạn
         }
     });
-    
+
     // Thực hiện cập nhật giỏ hàng và các sự kiện khác
     if (btn && modal) {
         btn.onclick = function () {

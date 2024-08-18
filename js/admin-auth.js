@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('login-form');
+    const authForm = document.getElementById('authForm');
 
-    loginForm.addEventListener('submit', function(event) {
+    authForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
         const usernameInput = document.getElementById('username').value.trim();
@@ -9,11 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (usernameInput && passwordInput) {
             const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-            const user = storedUsers.find(user => user.username === usernameInput);
+            const admin = storedUsers.find(user => user.username === usernameInput);
 
-            if (user && user.password === passwordInput) {
-                localStorage.setItem('username', usernameInput);
-                window.location.href = 'index.html';
+            if (admin && admin.password === passwordInput) {
+                window.location.href = 'admin.html'; // Chuyển hướng đến trang quản lý sản phẩm
             } else {
                 alert('Tên đăng nhập hoặc mật khẩu không đúng!');
             }

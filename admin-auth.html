@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Xác Thực Người Quản Lý</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/admin-auth.css" />
+</head>
+
+<body>
+    <!-- header -->
+        <nav>
+            <div class="content-nav">
+                <ul>
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="">Giới thiệu</a></li>
+                </ul>
+            </div>
+        </nav>
+
+    <!-- main content -->
+    <main>
+        <section class="admin-auth-wrapper">
+            <div class="admin-auth-container">
+                <h2>Xác Thực Người Quản Lý</h2>
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="username">Tên người dùng:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Xác thực</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <div class="footer-item">
+            <li><a href="">Liên hệ hỗ trợ</a></li>
+
+        </div>
+    </footer>
+
+    <script src="js/admin-auth.js"></script>
+</body>
+
+</html>

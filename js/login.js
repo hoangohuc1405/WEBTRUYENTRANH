@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (user && user.password === passwordInput) {
                 localStorage.setItem('username', usernameInput);
-                window.location.href = 'index.html';
+                window.location.href = 'home.html';
             } else {
                 alert('Tên đăng nhập hoặc mật khẩu không đúng!');
             }

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item">Người dùng</a>
                     <a href="admin-auth.html" class="dropdown-item">Người quản lý</a>
-                    <a href="#" class="dropdown-item" id="logout">Đăng xuất</a>
+                    <a href="home.html" class="dropdown-item" id="logout">Đăng xuất</a>
                 </div>
             `;
             signinButton.classList.add('dropdown');

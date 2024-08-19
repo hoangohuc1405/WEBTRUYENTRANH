@@ -623,15 +623,15 @@ h5.modal-title {
 
 /* CSS cho menu dropdown */
 .dropdown-menu {
-  display: none; /* Ẩn menu dropdown khi không cần thiết */
+  display: none; /* Ẩn menu khi chưa hover vào nút */
   position: absolute;
   top: 100%;
-  left: 0;
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  z-index: 1000;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 160px; /* Đảm bảo menu đủ rộng để chứa các item */
+  z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
 }
 
 .dropdown-menu .dropdown-item {
@@ -660,4 +660,3 @@ h5.modal-title {
 #signin-button:hover .dropdown-menu {
   display: block; /* Hiển thị menu dropdown khi di chuột qua nút */
 }
-

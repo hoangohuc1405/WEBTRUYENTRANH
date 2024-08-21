@@ -1,12 +1,15 @@
-// admin.js
 document.addEventListener('DOMContentLoaded', function() {
+    const productTable = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+    const soldProductTable = document.getElementById('soldProductTable').getElementsByTagName('tbody')[0];
     const addProductForm = document.getElementById('addProductForm');
     const submitButton = document.getElementById('submitButton');
-    const productTable = document.getElementById('productTable').getElementsByTagName('tbody')[0];
     let editingRowIndex = null;
 
-    // Load products from localStorage
+    // Tải sản phẩm từ localStorage
     loadProductsFromLocalStorage();
+
+    // Tải sản phẩm đã bán từ localStorage
+    loadSoldProductsFromLocalStorage();
 
     submitButton.addEventListener('click', function(event) {
         event.preventDefault();
@@ -16,17 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (productName && productPrice && productImage) {
             if (editingRowIndex !== null) {
-                // Update existing product
+                // Cập nhật sản phẩm hiện có
                 updateProductInTable(productName, productPrice, productImage, editingRowIndex);
                 updateLocalStorage();
-                editingRowIndex = null; // Clear editing state
-                submitButton.textContent = 'Thêm Sản phẩm'; // Change button text back
+                editingRowIndex = null; // Xóa trạng thái chỉnh sửa
+                submitButton.textContent = 'Thêm Sản phẩm'; // Thay đổi văn bản nút trở lại
             } else {
-                // Check for duplicate product
+                // Kiểm tra sản phẩm trùng lặp
                 if (isProductDuplicate(productName)) {
                     alert("Sản phẩm này đã tồn tại.");
                 } else {
-                    // Add new product
+                    // Tạo sản phẩm mới
                     addProductToTable(productName, productPrice, productImage);
                     saveProductToLocalStorage(productName, productPrice, productImage);
                 }
@@ -100,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function editProduct(button) {
         const row = button.parentElement.parentElement;
-        const rowIndex = row.rowIndex - 1; // Adjust for table headers
+        const rowIndex = row.rowIndex - 1; // Điều chỉnh tiêu đề bảng
         const name = row.cells[0].innerText;
         const price = row.cells[1].innerText.replace(' VNĐ', '');
         const image = row.cells[2].getElementsByTagName('img')[0].src;
@@ -109,14 +112,30 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('productPrice').value = price;
         document.getElementById('productImage').value = image;
 
-        // Save row index for later update
+        // Lưu chỉ mục hàng để cập nhật sau
         editingRowIndex = rowIndex;
-        submitButton.textContent = 'Sửa'; // Change button text to 'Sửa'
+        submitButton.textContent = 'Sửa'; 
     }
 
     function deleteProduct(button) {
         const row = button.parentElement.parentElement;
         row.remove();
         updateLocalStorage();
+    }
+
+    function loadSoldProductsFromLocalStorage() {
+        let soldProducts = JSON.parse(localStorage.getItem('soldProducts')) || [];
+        soldProducts.forEach(product => addSoldProductToTable(product));
+    }
+
+    function addSoldProductToTable(product) {
+        const row = soldProductTable.insertRow();
+        row.innerHTML = `
+            <td>${product.title}</td>
+            <td>${product.price}</td>
+            <td>${product.quantity}</td>
+            <td><img src="${product.img}" alt="${product.title}" style="width: 100px;"></td>
+            <td>${product.status}</td>
+        `;
     }
 });

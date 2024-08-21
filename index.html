@@ -25,7 +25,8 @@
                     <li><a href="#">Giới Thiệu</a></li>
                 </ul>
                 <form id="search-form">
-                    <input type="text" name="search" id="search-input" placeholder="Tìm kiếm sản phẩm..." oninput="searchProducts()" />
+                    <input type="text" name="search" id="search-input" placeholder="Tìm kiếm sản phẩm..."
+                        oninput="searchProducts()" />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
             </div>
@@ -85,7 +86,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary close-footer">Đóng</button>
-                            <button type="button" class="btn btn-primary order">Thanh Toán</button>
+                            <button type="button" class="btn btn-primary order">Đặt hàng</button>
                         </div>
                     </div>
                 </div>
@@ -96,21 +97,26 @@
             <div class="dropdown">
                 <button class="dropbtn">Hãng sản xuất <i class="fa fa-caret-down"></i></button>
                 <div class="dropdown-content">
-                    <button class="item" class="butterfly"><img
+                    <button class="item" data-brand="butterfly"><img
                             src="https://www.mastersofgames.com/images/tabletennis/butterfly-brand-logo.jpg"
                             alt=""></button>
-                    <button class="item" class="stiga"><img src="https://www.witneymowers.co.uk/wp-content/uploads/2019/03/10.jpg"
-                            alt=""></button>
-                    <button class="item" class="lining"><img
+                    <button class="item" data-brand="stiga"><img
+                            src="https://www.witneymowers.co.uk/wp-content/uploads/2019/03/10.jpg" alt=""></button>
+                    <button class="item" data-brand="lining"><img
                             src="https://inkythuatso.com/uploads/images/2021/12/logo-lining-inkythuatso-21-14-56-33.jpg"
                             alt=""></button>
-                    <button class="item" class="mizuno"><img
+                    <button class="item" data-brand="mizuno"><img
                             src="https://images.squarespace-cdn.com/content/v1/63f1807282ac4507d72bda15/ce13e5dc-b3e6-465b-9c8e-0fb4e3a5070f/Mizuno-logo-56F7B9A21D-seeklogo.com.png"
                             alt=""></button>
-                    <button class="item" class="joola"><img
+                    <button class="item" data-brand="joola"><img
                             src="https://th.bing.com/th/id/OIP._SzQzUJJMv0crr8ez5TkwwAAAA?rs=1&pid=ImgDetMain"
                             alt=""></button>
-                    <button class="item">Khác</button>
+                    <button class="item" data-brand="xiom"><img
+                            src="https://th.bing.com/th/id/OIP.wn6S6OjzuW5itFOzqBXimQHaEK?rs=1&pid=ImgDetMain"
+                            alt=""></button>
+                    <button class="item" data-brand="donic"><img
+                            src="https://th.bing.com/th/id/OIP.JWCoY89wAO73psBFQcWfGwAAAA?w=474&h=284&rs=1&pid=ImgDetMain"
+                            alt=""></button>
                 </div>
             </div>
             <div class="price-filter">

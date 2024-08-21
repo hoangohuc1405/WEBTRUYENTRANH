@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let minPriceInput = document.getElementById("min-price");
     let maxPriceInput = document.getElementById("max-price");
     let signinButton = document.getElementById('signin-button');
+    let brandButtons = document.querySelectorAll('.filter-section .dropdown .item');
 
     function updateSigninButton() {
         const username = localStorage.getItem('username');
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
             signinButton.classList.add('dropdown');
-            
+
             document.getElementById('logout').addEventListener('click', function () {
                 localStorage.removeItem('username');
                 localStorage.removeItem('isAdmin');
@@ -60,9 +61,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (order) {
         order.onclick = function () {
-            alert("Cảm ơn bạn đã thanh toán đơn hàng");
-            localStorage.removeItem('cart');
-            updateCart();
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cartItems.length > 0) {
+                // Lưu sản phẩm đã bán vào localStorage của admin
+                let soldProducts = JSON.parse(localStorage.getItem('soldProducts')) || [];
+                soldProducts = soldProducts.concat(cartItems.map(item => ({
+                    ...item,
+                    status: 'Chưa thanh toán' // Trạng thái mặc định khi thanh toán
+                })));
+                localStorage.setItem('soldProducts', JSON.stringify(soldProducts));
+
+                // Xóa giỏ hàng sau khi thanh toán
+                localStorage.removeItem('cart');
+                updateCart(); // Cập nhật giỏ hàng trên trang
+                alert('Cảm ơn bạn đã thanh toán đơn hàng');
+            } else {
+                alert('Giỏ hàng trống');
+            }
         };
     }
 
@@ -259,12 +274,12 @@ document.addEventListener("DOMContentLoaded", function () {
         products.forEach(function (product) {
             let title = product.querySelector('.content-product-h3').textContent.toLowerCase();
             let priceText = product.querySelector('.money').textContent.replace('VNĐ', '').trim().replace(/\./g, '');
-            let price = parseFloat(priceText);
+            let price = parseFloat(priceText) || 0;
 
-            let matchesSearch = title.includes(query);
-            let matchesPrice = price >= minPrice && price <= maxPrice;
+            let isPriceInRange = price >= minPrice && price <= maxPrice;
+            let isTitleMatching = title.includes(query);
 
-            if (matchesSearch && matchesPrice) {
+            if (isPriceInRange && isTitleMatching) {
                 product.style.display = 'block';
             } else {
                 product.style.display = 'none';
@@ -272,19 +287,39 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function searchProductsOnInput() {
-        searchInput.addEventListener('input', function () {
-            applyFilters();
-        });
-    }
+    searchInput.addEventListener('input', function () {
+        searchProducts(searchInput.value.toLowerCase());
+    });
 
-    function filterProductsByPrice() {
+    filterPriceBtn.addEventListener('click', function () {
         applyFilters();
-    }
+    });
 
-    searchProductsOnInput();
-    if (filterPriceBtn) {
-        filterPriceBtn.addEventListener("click", filterProductsByPrice);
+    brandButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const brand = this.getAttribute('data-brand');
+            filterProductsByBrand(brand);
+        });
+    });
+
+    function filterProductsByBrand(brand) {
+        let products = document.querySelectorAll('.products .main-product');
+        products.forEach(function (product) {
+            let productBrand = product.querySelector('.content-product-h3').textContent.toLowerCase();
+            if (brand === 'other') {
+                if (!['butterfly', 'stiga', 'lining', 'mizuno', 'joola'].some(b => productBrand.includes(b))) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            } else {
+                if (productBrand.includes(brand)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            }
+        });
     }
 
     loadProductsFromLocalStorage();
